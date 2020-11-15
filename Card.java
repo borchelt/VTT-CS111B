@@ -2,7 +2,7 @@ package Card;
 /**
 * Card Class
 * Class that creates/holds the data for cards
-* 
+* Still a W.I.P - Need more info about the cards specifics 
 * @since   2020-11-15 
 */
 public class Card {
