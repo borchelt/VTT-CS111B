@@ -132,7 +132,7 @@ public class Dice
 	 * rolls the dice modeled by the class
 	 * @return an array of different results from rolling the dice
 	 */
-	public ArrayList<Integer> Roll()
+	public ArrayList<Integer> roll()
 	{
 		Random dice = new Random();
 		
@@ -168,7 +168,7 @@ public class Dice
 	 * rolls the current modeled dice, then returns the result of adding them with a bonus
 	 * @return
 	 */
-	public int AddRoll()
+	public int addRoll()
 	{
 		Random dice = new Random();
 		
@@ -209,7 +209,7 @@ public class Dice
 	 * @param numOfFaces the high bound of the die roll
 	 * @return a random number from 1 to the number of faces on the die.
 	 */
-	public int Roll(int numOfFaces)
+	public int roll(int numOfFaces)
 	{
 		Random dice = new Random();
 		
@@ -227,7 +227,7 @@ public class Dice
 	 * @param numOfDice the amount of dice to roll
 	 * @return an ArrayList of the outcomes of each roll
 	 */
-	public ArrayList<Integer> Roll(int numOfDice, int numOfFaces)
+	public ArrayList<Integer> roll(int numOfDice, int numOfFaces)
 	{
 		Random dice = new Random();
 		ArrayList<Integer> rolls = new ArrayList<Integer>();
@@ -249,7 +249,7 @@ public class Dice
 	 * @param advantage if advantage is true, 2 dice are rolled and the higher result is taken
 	 * @return an ArrayList of the outcomes of each roll
 	 */
-	public ArrayList<Integer> Roll(int numOfDice, int numOfFaces, int bonus, boolean advantage)
+	public ArrayList<Integer> roll(int numOfDice, int numOfFaces, int bonus, boolean advantage)
 	{
 		Random dice = new Random();
 		
@@ -288,7 +288,7 @@ public class Dice
 	 * @param advantage if advantage is true, 2 dice are rolled and the higher result is taken
 	 * @return an ArrayList of the outcomes of each roll
 	 */
-	public int AddRoll(int numOfDice, int numOfFaces, int bonus, boolean advantage)
+	public int addRoll(int numOfDice, int numOfFaces, int bonus, boolean advantage)
 	{
 		Random dice = new Random();
 		
