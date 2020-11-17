@@ -1,4 +1,7 @@
-package Card;
+  
+package drivers;
+
+import card.*;
 
 public class TestCard{
 
@@ -7,14 +10,14 @@ public class TestCard{
 		NewCard = new Card();
 		
 		
-		Card CardOne = new Card("Card Name", "This is the Description of the card");
+		Card CardOne = new Card("Card name", "This is the description of the card");
 		
 		
-		WeaponCard Knife = new WeaponCard(1, 20, 0, false, "Knife", "This is a Knife", 5);
+		WeaponCard Knife = new WeaponCard(1, 4, 0, false, "Knife", "This is a Knife", 5);
 		
 	
-		SpellCard FireBall = new SpellCard(1, 20, 0, false, "FireBall", "Shoots a FireBall", 15, "Circle");
-		System.out.println(FireBall.toString());
+		SpellCard FireBall = new SpellCard(8, 6, 0, false, "FireBall", "Shoots a FireBall", 15, "Circle");
+		System.out.println(FireBall);
 		
 		AbilityCard Ability = new AbilityCard(1, 20, 0, false, "Ability", "Does An Ability");
 		System.out.println(Ability);
