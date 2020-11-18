@@ -9,7 +9,7 @@ import diceClassFinal.Dice;
  * @author Wolfgang Borchelt
  *
  */
-public class diceDriver 
+public class TestDice
 {
 
 
