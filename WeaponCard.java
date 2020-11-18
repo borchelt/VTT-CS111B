@@ -1,32 +1,85 @@
-package Card;
+package card;
 
-import java.util.ArrayList;
 
 public class WeaponCard extends Card{
-	private int Range;
-	public WeaponCard() {
+	protected int Range;
+	
+	/**
+	 * the default constructor
+	 */
+	public WeaponCard() 
+	{
+		super();
 		Range = 0;
+		numOfDice = 1;
+		numOfFaces = 8;
+		bonus = 0;
+		advantage = false;
 	}
 	
-	public WeaponCard(int numOfDice, int numOfFaces, int bonus, boolean advantage, String Name, String Desc, int Range) {
+	
+	/**
+	 * The main constructor
+	 * @param numOfDice the number of dice to roll
+	 * @param numOfFaces the number of faces each die has
+	 * @param bonus the bonus to each roll 
+	 * @param advantage whether or not the rolls have advantage
+	 * @param name the name of the ability
+	 * @param desc the description of the ability
+	 * @param Range the range of the attack
+	 */
+	public WeaponCard(int numOfDice, int numOfFaces, int bonus, boolean advantage, String name, String desc, int Range)
+	{
+		super(name, desc);
 		this.Range = Range;
+		this.numOfDice = numOfDice;
+		this.numOfFaces = numOfFaces;
+		this.bonus = bonus;
+		this.advantage = advantage;
 	}
 	
-	public void setRange(int a) {
+	
+	/**
+	 * sets the range of the weapon
+	 * @param a the new range
+	 */
+	public void setRange(int a) 
+	{
 		a = Range;
 	}
 
-	public int getRange() {
+	
+	/**
+	 * @return the range of the weapon
+	 */
+	public int getRange() 
+	{
 		return Range;
 	}
 	
 	
-	public ArrayList<Integer> getDamage() {
-		return Roll();
+	/**
+	 * rolls the damage of the weapon
+	 * @return the damage of the weapon
+	 */
+	public int getDamage() 
+	{
+		return addRoll();
 	}
 	
-	public String toString() {
-		return(super.toString() +  "\nRange: " + Range + "\nDamage: " + getDamage());
+	
+	/**
+	 * @return a String of the card's data
+	 */
+	@Override
+	public String toString() 
+	{	
+		if(advantage == false)
+			return "\nCard: " + "\nname: " + name + "\ndescription: " + desc +  "\nRange: " + Range +
+					"\nDamage Dice: " + numOfDice + "d" + numOfFaces + "+" + bonus;
+		else 
+			return "\nCard: " + "\nname: " + name + "\ndescription: " + desc +  "\nRange: " + Range +
+					"\nDamage Dice: " + "(A) " + numOfDice + "d" + numOfFaces + "+" + bonus;
 				
 	}
 	

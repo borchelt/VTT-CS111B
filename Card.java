@@ -1,58 +1,92 @@
-package Card;
+package card;
+
+import diceClassFinal.Dice;
+
 /**
 * Card Class
 * Class that creates/holds the data for cards
 * Still a W.I.P - Need more info about the cards specifics 
 * @since   2020-11-15 
 */
-public class Card extends Dice{
-	private String Name;
-	private String Desc;
+public class Card extends Dice
+{
+	protected String name;
+	protected String desc;
+	
+	
 	/**
     constructors
-    @param Name = The Name of the card
-    @param Desc  = The Description of the card
-*/
-	public Card() {
-		Name = "Name";
-		Desc = "Description";
+    @param name = The name of the card
+    @param desc  = The description of the card
+	 */
+	public Card()
+	{
+		super();
+		name = "name";
+		desc = "description";
 	}
-	public Card(String Name, String Desc) {
-		this.Name = Name;
-		this.Desc = Desc;
-	} // End of constructors
+	
+	
+	public Card(String name, String desc) 
+	{
+		this.name = name;
+		this.desc = desc;
+	} 
+	
+	
+	// End of constructors
+	
 	
 	/**
-    Setters for storing The Name and Description
-    @param a is the value being stored in Name.
-    @param a is the value being stored in Description.
- */
-	public void setName(String a) {
-		a = Name;
+    Setters for storing The name and description
+    @param a is the value being stored in name.
+    @param a is the value being stored in description.
+	 */
+	public void setname(String a) 
+	{
+		a = name;
 	}
 	
-	public void setDesc(String a) {
-		a = Desc;
-	} // End of Setters
+	
+	public void setdesc(String a) 
+	{
+		a = desc;
+	} 
+	
+	
+	
+	// End of Setters
+	
+	
 	
 	/**
-    Getters for returning the Note's Name and Description
-    @return the value in the Name field
-    @return the value in the Desc field
- */
-	public String getName() {
-		return Name;
+    Getters for returning the Note's name and description
+    @return the value in the name field
+    @return the value in the desc field
+	 */
+	public String getname() 
+	{
+		return name;
 	}
 	
-	public String getDesc() {
-		return Desc;
-	} //End of Getters
+	public String getdesc() 
+	{
+		return desc;
+	} 
+	
+	
+	
+	//End of Getters
+	
+	
 	
 	/**
     toString method
     @return Print method listing The card's details
- */
-	public String toString() {
-		return ("Card: " + "\nName: " + Name + "\nDescription: " + Desc);
+	 */
+	@Override
+	public String toString() 
+	{
+		return ("\nCard: " + "\nname: " + name + "\ndescription: " + desc);
 	}
 }
