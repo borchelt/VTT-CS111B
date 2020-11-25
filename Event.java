@@ -1,5 +1,5 @@
 /**
- * 
+ * models an attack or other action by a character
  */
 package event;
 import java.util.*;
