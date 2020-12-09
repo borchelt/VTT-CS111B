@@ -5,7 +5,12 @@
  */
 package main;
 
+import card.Card;
+import card.WeaponCard;
 import diceClassFinal.*;
+import characterFinal.Character5E;
+import java.util.ArrayList;
+import java.util.HashMap;
 /**
  *
  * @author Wolfgang Borchelt
@@ -14,11 +19,30 @@ public class VTTForm extends javax.swing.JFrame {
 
    boolean rollWAdvantage = false;
    boolean isD100 = false;
-   String userName = "admin";
+   String userName;
+   ArrayList<Character5E> storedChara = new ArrayList<Character5E>();
+   ArrayList<Card> jonDeck = new ArrayList<Card>();
+   Card testCard = new Card();
+   WeaponCard sword = new WeaponCard(1, 8, 3, false, "sword", "a nice longSword, built for the arena", 5);
+   WeaponCard rapier = new WeaponCard(1, 8, 4, false, "Rapier", "a fine rapier, built for dueling", 5);
+   Character5E joe = new Character5E();
+   Character5E selectedChara;
+   HashMap<Character5E, Integer> encounterCharas = new HashMap<Character5E, Integer>();
+   int cardDisplayRange = 0;
+   Character5E hoveredChar;
+
     /**
      * Creates new form VTTForm
      */
     public VTTForm() {
+        jonDeck.add(sword);
+        jonDeck.add(rapier);
+        Character5E jon = new Character5E("jon", 3, "fighter", "elf", 10, 14, 18, 10, 10, 10, 30, false, 20, 20, 0, 18, 4, 30, jonDeck);
+        storedChara.add(joe);
+        storedChara.add(jon);
+        selectedChara = storedChara.get(0);
+        userName = "admin";
+        
         initComponents();
     }
 
@@ -40,19 +64,23 @@ public class VTTForm extends javax.swing.JFrame {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jSplitPane1 = new javax.swing.JSplitPane();
-        sidebarTab = new javax.swing.JTabbedPane();
+        sidebar = new javax.swing.JTabbedPane();
         jScrollPane6 = new javax.swing.JScrollPane();
         chatLog = new javax.swing.JTextArea();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList3 = new javax.swing.JList<>();
         jScrollPane4 = new javax.swing.JScrollPane();
+        String[] strings = {"test1", "test2", "test3"};
         jList4 = new javax.swing.JList<>();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jList5 = new javax.swing.JList<>();
+        inti = new javax.swing.JList<>();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        characterWindow = new javax.swing.JTextArea();
+        choice1 = new java.awt.Choice();
+        jButton8 = new javax.swing.JButton();
         jTabbedPane3 = new javax.swing.JTabbedPane();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jScrollPane9 = new javax.swing.JScrollPane();
@@ -70,6 +98,10 @@ public class VTTForm extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
+        jButton13 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
+        choice2 = new java.awt.Choice();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -136,23 +168,14 @@ public class VTTForm extends javax.swing.JFrame {
             }
         });
 
-        jSplitPane1.setDividerLocation(1010);
+        jSplitPane1.setDividerLocation(920);
 
         chatLog.setEditable(false);
         chatLog.setColumns(20);
         chatLog.setRows(5);
         jScrollPane6.setViewportView(chatLog);
 
-        sidebarTab.addTab("Chat", jScrollPane6);
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
-
-        sidebarTab.addTab("Characters", jScrollPane1);
+        sidebar.addTab("Chat", jScrollPane6);
 
         jList2.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -161,7 +184,7 @@ public class VTTForm extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jList2);
 
-        sidebarTab.addTab("Music", jScrollPane2);
+        sidebar.addTab("Music", jScrollPane2);
 
         jList3.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -170,27 +193,85 @@ public class VTTForm extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jList3);
 
-        sidebarTab.addTab("Maps", jScrollPane3);
+        sidebar.addTab("Maps", jScrollPane3);
 
         jList4.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane4.setViewportView(jList4);
 
-        sidebarTab.addTab("Cards", jScrollPane4);
+        sidebar.addTab("Cards", jScrollPane4);
 
-        jList5.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        inti.setModel(new javax.swing.AbstractListModel<String>() {
+            public int getSize() { return encounterCharas.size(); }
+            public String getElementAt(int i)
+            {
+                ArrayList<Character5E> tempCharas = new ArrayList<>();
+                encounterCharas.forEach((k, v) -> {
+                    tempCharas.add(k);
+                });
+
+                return tempCharas.get(i).getName();
+
+            }
         });
-        jScrollPane8.setViewportView(jList5);
+        inti.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                intiValueChanged(evt);
+            }
+        });
+        jScrollPane8.setViewportView(inti);
 
-        sidebarTab.addTab("initiative", jScrollPane8);
+        sidebar.addTab("initiative", jScrollPane8);
 
-        jSplitPane1.setRightComponent(sidebarTab);
+        characterWindow.setColumns(20);
+        characterWindow.setRows(5);
+        jScrollPane1.setViewportView(characterWindow);
+        characterWindow.setText(selectedChara.toString());
+
+        for(Character5E chara: storedChara)
+        choice1.add(chara.getName());
+        choice1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                choice1ItemStateChanged(evt);
+            }
+        });
+
+        jButton8.setText("add to encounter");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton8)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(63, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton8))
+        );
+
+        sidebar.addTab("Characters", jPanel2);
+
+        jSplitPane1.setRightComponent(sidebar);
 
         jDesktopPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -205,14 +286,14 @@ public class VTTForm extends javax.swing.JFrame {
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 997, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -229,14 +310,14 @@ public class VTTForm extends javax.swing.JFrame {
             jDesktopPane3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 997, Short.MAX_VALUE)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jDesktopPane3Layout.setVerticalGroup(
             jDesktopPane3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -253,14 +334,14 @@ public class VTTForm extends javax.swing.JFrame {
             jDesktopPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 997, Short.MAX_VALUE)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jDesktopPane4Layout.setVerticalGroup(
             jDesktopPane4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -277,9 +358,36 @@ public class VTTForm extends javax.swing.JFrame {
             }
         });
 
+        jTextArea2.setEditable(false);
         jTextArea2.setColumns(10);
         jTextArea2.setRows(5);
-        jTextArea2.setText("test card\n");
+        if(hoveredChar == null){
+            jTextArea2.setText("test card\n");
+        }
+        else if(hoveredChar.getDeck() == null){
+            jTextArea2.setText("no cards\n");
+        }
+        else if(hoveredChar.getDeck().get(cardDisplayRange) != null)
+        {
+            jTextArea2.setText(hoveredChar.getDeck().get(cardDisplayRange).toString());
+
+        }
+        else
+        {
+            jTextArea2.setText("no card\n");
+        }
+        jTextArea2.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jTextArea2InputMethodTextChanged(evt);
+            }
+        });
+        jTextArea2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jTextArea2PropertyChange(evt);
+            }
+        });
         jScrollPane7.setViewportView(jTextArea2);
 
         javax.swing.GroupLayout jInternalFrame8Layout = new javax.swing.GroupLayout(jInternalFrame8.getContentPane());
@@ -305,6 +413,31 @@ public class VTTForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jButton13.setIcon(new javax.swing.ImageIcon("left.png"));
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        jButton14.setIcon(new javax.swing.ImageIcon("right.png"));
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+
+        encounterCharas.forEach((k, v) -> {
+            choice1.add(k.getName());
+        });
+        choice2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                choice2ItemStateChanged(evt);
+            }
+        });
+
+        jLabel4.setText("Target");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -312,14 +445,32 @@ public class VTTForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jInternalFrame8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1224, Short.MAX_VALUE))
+                .addGap(890, 890, 890)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(choice2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jInternalFrame8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(choice2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jInternalFrame8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         jScrollPane5.setViewportView(jPanel1);
@@ -332,7 +483,7 @@ public class VTTForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
-                    .addComponent(jScrollPane5)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton4)
@@ -347,16 +498,18 @@ public class VTTForm extends javax.swing.JFrame {
                                 .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jRadioButton1)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(31, 31, 31)
+                        .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSplitPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -374,8 +527,7 @@ public class VTTForm extends javax.swing.JFrame {
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(30, 30, 30)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -392,7 +544,6 @@ public class VTTForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Dice d20 = new Dice(1, 20, 0, rollWAdvantage);
-        
         if(rollWAdvantage == false)
             chatLog.append("\n" + userName + " rolled a d20: " + d20.roll());
         else
@@ -425,7 +576,9 @@ public class VTTForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+//        if(hoveredChar.getDeck().get(cardDisplayRange) != null)
+            
+            
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
@@ -443,6 +596,69 @@ public class VTTForm extends javax.swing.JFrame {
         else
             chatLog.append("\n" + userName + " rolled a d100: " + d10.roll(1, 100));
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void choice1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_choice1ItemStateChanged
+        for(Character5E chara: storedChara)
+        {
+            if(choice1.getSelectedItem() == chara.getName())
+                selectedChara = chara;
+        }
+        
+        characterWindow.setText("");
+        characterWindow.append(selectedChara.toString());
+    }//GEN-LAST:event_choice1ItemStateChanged
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        Dice d20 = new Dice(1, 20, selectedChara.getInti(), false);
+        encounterCharas.put(selectedChara, d20.roll().get(0));
+        inti.updateUI();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void intiValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_intiValueChanged
+        
+        for(Character5E chara: storedChara)
+        {
+            if(inti.getSelectedValue() == chara.getName())
+                   hoveredChar = chara;
+
+                
+                
+        }        
+    }//GEN-LAST:event_intiValueChanged
+
+    private void choice2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_choice2ItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_choice2ItemStateChanged
+
+    private void jTextArea2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextArea2PropertyChange
+
+    }//GEN-LAST:event_jTextArea2PropertyChange
+
+    private void jTextArea2InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextArea2InputMethodTextChanged
+        if(hoveredChar == null){
+            jTextArea2.setText("test card\n");
+        }
+        else if(hoveredChar.getDeck() == null){
+            jTextArea2.setText("no cards\n");
+        }
+        
+        else if(hoveredChar.getDeck().get(cardDisplayRange) != null)
+        {
+            jTextArea2.setText(hoveredChar.getDeck().get(cardDisplayRange).toString());
+        }
+        else
+        {
+            jTextArea2.setText("no card\n");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextArea2InputMethodTextChanged
 
     /**
      * @param args the command line arguments
@@ -480,14 +696,21 @@ public class VTTForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea characterWindow;
     private javax.swing.JTextArea chatLog;
+    private java.awt.Choice choice1;
+    private java.awt.Choice choice2;
+    private javax.swing.JList<String> inti;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JDesktopPane jDesktopPane3;
     private javax.swing.JDesktopPane jDesktopPane4;
@@ -495,12 +718,12 @@ public class VTTForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JList<String> jList2;
     private javax.swing.JList<String> jList3;
     private javax.swing.JList<String> jList4;
-    private javax.swing.JList<String> jList5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -518,6 +741,6 @@ public class VTTForm extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTabbedPane sidebarTab;
+    private javax.swing.JTabbedPane sidebar;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,7 +7,7 @@ package main;
 
 /**
  *
- * @author alada
+ * @author Wolfgang Borchelt
  */
 public class VTT {
 
