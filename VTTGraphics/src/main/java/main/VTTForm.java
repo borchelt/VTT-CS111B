@@ -5,7 +5,10 @@
  */
 package main;
 
+import card.AbilityCard;
 import card.Card;
+import card.ItemCard;
+import card.SpellCard;
 import card.WeaponCard;
 import diceClassFinal.*;
 import characterFinal.Character5E;
@@ -24,24 +27,38 @@ public class VTTForm extends javax.swing.JFrame {
    ArrayList<Card> jonDeck = new ArrayList<Card>();
    Card testCard = new Card();
    WeaponCard sword = new WeaponCard(1, 8, 3, false, "sword", "a nice longSword, built for the arena", 5);
-   WeaponCard rapier = new WeaponCard(1, 8, 4, false, "Rapier", "a fine rapier, built for dueling", 5);
+   SpellCard fireball = new SpellCard(8, 6, 0, false,"Fireball", "a powerful pyromancy spell", 60, "15 ft Sphere");
+   HashMap<String, Integer> manipulationMap = new HashMap<String, Integer>();
+   AbilityCard rebuke = new AbilityCard(2, 6, 0, false, "Hellish Rebuke", "your pain fuels a spell that \n lashes out at the attacker, \n causing them to be burned \n by hellfire.");
+   
    Character5E joe = new Character5E();
    Character5E selectedChara;
    HashMap<Character5E, Integer> encounterCharas = new HashMap<Character5E, Integer>();
    int cardDisplayRange = 0;
    Character5E hoveredChar;
+   Character5E target;
+   ArrayList<Character5E> targetList = new ArrayList<Character5E>();
+
+
 
     /**
      * Creates new form VTTForm
      */
     public VTTForm() {
+        manipulationMap.put("AC", 3);
+        ItemCard shield = new ItemCard("Shield", "a small buckler", manipulationMap);
+        jonDeck.add(testCard);
         jonDeck.add(sword);
-        jonDeck.add(rapier);
+        jonDeck.add(fireball);
+        jonDeck.add(shield);
+        jonDeck.add(rebuke);
         Character5E jon = new Character5E("jon", 3, "fighter", "elf", 10, 14, 18, 10, 10, 10, 30, false, 20, 20, 0, 18, 4, 30, jonDeck);
         storedChara.add(joe);
         storedChara.add(jon);
         selectedChara = storedChara.get(0);
         userName = "admin";
+        
+
         
         initComponents();
     }
@@ -94,14 +111,31 @@ public class VTTForm extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane5 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
-        jInternalFrame8 = new javax.swing.JInternalFrame();
-        jButton7 = new javax.swing.JButton();
+        fullCard1 = new javax.swing.JInternalFrame();
+        cardButton1 = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        card1 = new javax.swing.JTextArea();
         jButton13 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
         choice2 = new java.awt.Choice();
         jLabel4 = new javax.swing.JLabel();
+        jButton9 = new javax.swing.JButton();
+        fullCard2 = new javax.swing.JInternalFrame();
+        cardButton2 = new javax.swing.JButton();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        card2 = new javax.swing.JTextArea();
+        fullCard3 = new javax.swing.JInternalFrame();
+        cardButton3 = new javax.swing.JButton();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        card3 = new javax.swing.JTextArea();
+        fullCard4 = new javax.swing.JInternalFrame();
+        cardButton5 = new javax.swing.JButton();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        card5 = new javax.swing.JTextArea();
+        jScrollPane16 = new javax.swing.JScrollPane();
+        targetListDisplay = new javax.swing.JTextArea();
+        clear = new javax.swing.JButton();
+        typeBox = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -349,67 +383,67 @@ public class VTTForm extends javax.swing.JFrame {
 
         jSplitPane1.setLeftComponent(jTabbedPane3);
 
-        jInternalFrame8.setVisible(true);
+        fullCard1.setMaximumSize(new java.awt.Dimension(206, 260));
+        fullCard1.setMinimumSize(new java.awt.Dimension(206, 260));
+        fullCard1.setPreferredSize(new java.awt.Dimension(206, 260));
+        fullCard1.setVisible(true);
 
-        jButton7.setText("Use");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        cardButton1.setText("Use");
+        cardButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                cardButton1ActionPerformed(evt);
             }
         });
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(10);
-        jTextArea2.setRows(5);
-        if(hoveredChar == null){
-            jTextArea2.setText("test card\n");
-        }
-        else if(hoveredChar.getDeck() == null){
-            jTextArea2.setText("no cards\n");
-        }
-        else if(hoveredChar.getDeck().get(cardDisplayRange) != null)
-        {
-            jTextArea2.setText(hoveredChar.getDeck().get(cardDisplayRange).toString());
+        card1.setEditable(false);
+        card1.setColumns(10);
+        card1.setRows(5);
+        //if(hoveredChar == null){
+            card1.setText("test card\n");
+            //}
+        //else if(hoveredChar.getDeck() == null){
+            //card1.setText("no cards\n");
+            //}
+        //else if(hoveredChar.getDeck().get(cardDisplayRange) != null)
+        //{
+            //card1.setText(hoveredChar.getDeck().get(cardDisplayRange).toString());
 
-        }
-        else
-        {
-            jTextArea2.setText("no card\n");
-        }
-        jTextArea2.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            //}
+        //else
+        //{
+            //    card1.setText("no card\n");
+            //}
+        card1.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                jTextArea2InputMethodTextChanged(evt);
+                card1InputMethodTextChanged(evt);
             }
         });
-        jTextArea2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        card1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jTextArea2PropertyChange(evt);
+                card1PropertyChange(evt);
             }
         });
-        jScrollPane7.setViewportView(jTextArea2);
+        jScrollPane7.setViewportView(card1);
 
-        javax.swing.GroupLayout jInternalFrame8Layout = new javax.swing.GroupLayout(jInternalFrame8.getContentPane());
-        jInternalFrame8.getContentPane().setLayout(jInternalFrame8Layout);
-        jInternalFrame8Layout.setHorizontalGroup(
-            jInternalFrame8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jInternalFrame8Layout.createSequentialGroup()
+        javax.swing.GroupLayout fullCard1Layout = new javax.swing.GroupLayout(fullCard1.getContentPane());
+        fullCard1.getContentPane().setLayout(fullCard1Layout);
+        fullCard1Layout.setHorizontalGroup(
+            fullCard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fullCard1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jInternalFrame8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-                    .addGroup(jInternalFrame8Layout.createSequentialGroup()
-                        .addComponent(jButton7)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(cardButton1)
+                .addContainerGap(137, Short.MAX_VALUE))
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
         );
-        jInternalFrame8Layout.setVerticalGroup(
-            jInternalFrame8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jInternalFrame8Layout.createSequentialGroup()
+        fullCard1Layout.setVerticalGroup(
+            fullCard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fullCard1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7)
+                .addComponent(cardButton1)
                 .addContainerGap())
         );
 
@@ -438,102 +472,344 @@ public class VTTForm extends javax.swing.JFrame {
 
         jLabel4.setText("Target");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jInternalFrame8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(890, 890, 890)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jButton9.setText("add to list");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        fullCard2.setMaximumSize(new java.awt.Dimension(206, 260));
+        fullCard2.setMinimumSize(new java.awt.Dimension(206, 260));
+        fullCard2.setPreferredSize(new java.awt.Dimension(206, 260));
+        fullCard2.setVisible(true);
+
+        cardButton2.setText("Use");
+        cardButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cardButton2ActionPerformed(evt);
+            }
+        });
+
+        card2.setEditable(false);
+        card2.setColumns(10);
+        card2.setRows(5);
+        card2.setText("test card\n");
+        //}
+    //else if(hoveredChar.getDeck() == null){
+        //card1.setText("no cards\n");
+        //}
+    //else if(hoveredChar.getDeck().get(cardDisplayRange) != null)
+    //{
+        //card1.setText(hoveredChar.getDeck().get(cardDisplayRange).toString());
+
+        //}
+    //else
+    //{
+        //    card1.setText("no card\n");
+        //}
+    card2.addInputMethodListener(new java.awt.event.InputMethodListener() {
+        public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        }
+        public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            card2InputMethodTextChanged(evt);
+        }
+    });
+    card2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        public void propertyChange(java.beans.PropertyChangeEvent evt) {
+            card2PropertyChange(evt);
+        }
+    });
+    jScrollPane12.setViewportView(card2);
+
+    javax.swing.GroupLayout fullCard2Layout = new javax.swing.GroupLayout(fullCard2.getContentPane());
+    fullCard2.getContentPane().setLayout(fullCard2Layout);
+    fullCard2Layout.setHorizontalGroup(
+        fullCard2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(fullCard2Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(cardButton2)
+            .addContainerGap(137, Short.MAX_VALUE))
+        .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+    );
+    fullCard2Layout.setVerticalGroup(
+        fullCard2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fullCard2Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(cardButton2)
+            .addContainerGap())
+    );
+
+    fullCard3.setMaximumSize(new java.awt.Dimension(206, 260));
+    fullCard3.setMinimumSize(new java.awt.Dimension(206, 260));
+    fullCard3.setPreferredSize(new java.awt.Dimension(206, 260));
+    fullCard3.setVisible(true);
+
+    cardButton3.setText("Use");
+    cardButton3.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            cardButton3ActionPerformed(evt);
+        }
+    });
+
+    card3.setEditable(false);
+    card3.setColumns(10);
+    card3.setRows(5);
+    card3.setText("test card\n");
+    //}
+    //else if(hoveredChar.getDeck() == null){
+        //card1.setText("no cards\n");
+        //}
+    //else if(hoveredChar.getDeck().get(cardDisplayRange) != null)
+    //{
+        //card1.setText(hoveredChar.getDeck().get(cardDisplayRange).toString());
+
+        //}
+    //else
+    //{
+        //    card1.setText("no card\n");
+        //}
+    card3.addInputMethodListener(new java.awt.event.InputMethodListener() {
+        public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        }
+        public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            card3InputMethodTextChanged(evt);
+        }
+    });
+    card3.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        public void propertyChange(java.beans.PropertyChangeEvent evt) {
+            card3PropertyChange(evt);
+        }
+    });
+    jScrollPane13.setViewportView(card3);
+
+    javax.swing.GroupLayout fullCard3Layout = new javax.swing.GroupLayout(fullCard3.getContentPane());
+    fullCard3.getContentPane().setLayout(fullCard3Layout);
+    fullCard3Layout.setHorizontalGroup(
+        fullCard3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(fullCard3Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(cardButton3)
+            .addContainerGap(137, Short.MAX_VALUE))
+        .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+    );
+    fullCard3Layout.setVerticalGroup(
+        fullCard3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fullCard3Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(cardButton3)
+            .addContainerGap())
+    );
+
+    fullCard4.setMaximumSize(new java.awt.Dimension(206, 260));
+    fullCard4.setMinimumSize(new java.awt.Dimension(206, 260));
+    fullCard4.setPreferredSize(new java.awt.Dimension(206, 260));
+    fullCard4.setVisible(true);
+
+    cardButton5.setText("Use");
+    cardButton5.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            cardButton5ActionPerformed(evt);
+        }
+    });
+
+    card5.setEditable(false);
+    card5.setColumns(10);
+    card5.setRows(5);
+    card5.setText("test card\n");
+    //}
+    //else if(hoveredChar.getDeck() == null){
+        //card1.setText("no cards\n");
+        //}
+    //else if(hoveredChar.getDeck().get(cardDisplayRange) != null)
+    //{
+        //card1.setText(hoveredChar.getDeck().get(cardDisplayRange).toString());
+
+        //}
+    //else
+    //{
+        //    card1.setText("no card\n");
+        //}
+    card5.addInputMethodListener(new java.awt.event.InputMethodListener() {
+        public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        }
+        public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            card5InputMethodTextChanged(evt);
+        }
+    });
+    card5.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        public void propertyChange(java.beans.PropertyChangeEvent evt) {
+            card5PropertyChange(evt);
+        }
+    });
+    jScrollPane15.setViewportView(card5);
+
+    javax.swing.GroupLayout fullCard4Layout = new javax.swing.GroupLayout(fullCard4.getContentPane());
+    fullCard4.getContentPane().setLayout(fullCard4Layout);
+    fullCard4Layout.setHorizontalGroup(
+        fullCard4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(fullCard4Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(cardButton5)
+            .addContainerGap(137, Short.MAX_VALUE))
+        .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+    );
+    fullCard4Layout.setVerticalGroup(
+        fullCard4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fullCard4Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(cardButton5)
+            .addContainerGap())
+    );
+
+    targetListDisplay.setColumns(10);
+    targetListDisplay.setRows(5);
+    targetListDisplay.setText("List of targets: ");
+    jScrollPane16.setViewportView(targetListDisplay);
+
+    clear.setText("clear");
+    clear.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            clearActionPerformed(evt);
+        }
+    });
+
+    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+    jPanel1.setLayout(jPanel1Layout);
+    jPanel1Layout.setHorizontalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel1Layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(fullCard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(fullCard2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(fullCard3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(fullCard4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(29, 29, 29)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(jLabel4)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createSequentialGroup()
                     .addComponent(choice2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4))
-                .addContainerGap(180, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton9)))
+            .addGap(18, 18, 18)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(clear, javax.swing.GroupLayout.Alignment.TRAILING))
+            .addContainerGap(26, Short.MAX_VALUE))
+    );
+    jPanel1Layout.setVerticalGroup(
+        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGap(31, 31, 31)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(clear)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(fullCard4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fullCard3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fullCard2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fullCard1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(jLabel4)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(choice2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jInternalFrame8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(56, Short.MAX_VALUE))
-        );
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addContainerGap(24, Short.MAX_VALUE))
+    );
 
-        jScrollPane5.setViewportView(jPanel1);
+    jScrollPane5.setViewportView(jPanel1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton4)
-                            .addComponent(jButton5)
-                            .addComponent(jButton2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton2))
-                            .addComponent(jButton6)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton1)))
-                        .addGap(31, 31, 31)
-                        .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jRadioButton1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+    typeBox.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            typeBoxActionPerformed(evt);
+        }
+    });
+
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+    getContentPane().setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton4)
+                        .addComponent(jButton5)
+                        .addComponent(jButton2)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButton3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jRadioButton2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)))
+                        .addComponent(jButton6)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButton1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jRadioButton1)))
+                    .addGap(31, 31, 31)
+                    .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jSeparator1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(typeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap())
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+    );
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jRadioButton1))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jRadioButton2))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(30, 30, 30)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+                .addComponent(typeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
+    );
 
-        pack();
+    pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -575,11 +851,18 @@ public class VTTForm extends javax.swing.JFrame {
         chatLog.append("\n" + userName + " rolled a d6: " + d6.roll());   
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-//        if(hoveredChar.getDeck().get(cardDisplayRange) != null)
-            
-            
-    }//GEN-LAST:event_jButton7ActionPerformed
+    private void cardButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardButton1ActionPerformed
+
+        if(hoveredChar.getDeck().get(cardDisplayRange) instanceof WeaponCard && hoveredChar.getDeck().get(cardDisplayRange) instanceof SpellCard == false)
+            chatLog.append(hoveredChar.weaponAttack(target, (WeaponCard) hoveredChar.getDeck().get(cardDisplayRange)));
+        if(hoveredChar.getDeck().get(cardDisplayRange) instanceof SpellCard)
+            chatLog.append(hoveredChar.spellAttack(targetList, (SpellCard) hoveredChar.getDeck().get(cardDisplayRange)));
+        if(hoveredChar.getDeck().get(cardDisplayRange) instanceof ItemCard)
+            chatLog.append(hoveredChar.equip((ItemCard) hoveredChar.getDeck().get(cardDisplayRange)));
+        if(hoveredChar.getDeck().get(cardDisplayRange) instanceof AbilityCard)
+            chatLog.append(hoveredChar.useAbility(targetList, (AbilityCard) hoveredChar.getDeck().get(cardDisplayRange)));
+        
+    }//GEN-LAST:event_cardButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         if(isD100 == false)
@@ -609,17 +892,27 @@ public class VTTForm extends javax.swing.JFrame {
     }//GEN-LAST:event_choice1ItemStateChanged
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        
+        choice2.addItem(selectedChara.getName());
         Dice d20 = new Dice(1, 20, selectedChara.getInti(), false);
+        if(encounterCharas.isEmpty())
+            target = selectedChara;
         encounterCharas.put(selectedChara, d20.roll().get(0));
         inti.updateUI();
+        
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
+        if(cardDisplayRange >= 4)
+            cardDisplayRange -= 4;
+        updateCards();
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
+        if(hoveredChar.getDeck().size() > cardDisplayRange + 4)
+            cardDisplayRange += 4;
+        updateCards();
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void intiValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_intiValueChanged
@@ -632,34 +925,174 @@ public class VTTForm extends javax.swing.JFrame {
                 
                 
         }        
+        
+        this.updateCards();
+       
+        
     }//GEN-LAST:event_intiValueChanged
 
     private void choice2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_choice2ItemStateChanged
-        // TODO add your handling code here:
+     for(Character5E chara: storedChara)
+        {
+            if(choice2.getSelectedItem() == chara.getName())
+                target = chara;
+        }
+        
+       
     }//GEN-LAST:event_choice2ItemStateChanged
 
-    private void jTextArea2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextArea2PropertyChange
+    private void card1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_card1PropertyChange
 
-    }//GEN-LAST:event_jTextArea2PropertyChange
+    }//GEN-LAST:event_card1PropertyChange
 
-    private void jTextArea2InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextArea2InputMethodTextChanged
+    private void card1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_card1InputMethodTextChanged
         if(hoveredChar == null){
-            jTextArea2.setText("test card\n");
+            card1.setText("test card\n");
         }
         else if(hoveredChar.getDeck() == null){
-            jTextArea2.setText("no cards\n");
+            card1.setText("no cards\n");
         }
         
         else if(hoveredChar.getDeck().get(cardDisplayRange) != null)
         {
-            jTextArea2.setText(hoveredChar.getDeck().get(cardDisplayRange).toString());
+            card1.setText(hoveredChar.getDeck().get(cardDisplayRange).toString());
         }
         else
         {
-            jTextArea2.setText("no card\n");
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextArea2InputMethodTextChanged
+            card1.setText("no card\n");
+        }
+    }//GEN-LAST:event_card1InputMethodTextChanged
 
+    private void cardButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardButton2ActionPerformed
+
+        if(hoveredChar.getDeck().get(cardDisplayRange+1) instanceof WeaponCard && hoveredChar.getDeck().get(cardDisplayRange+1) instanceof SpellCard == false)
+            chatLog.append(hoveredChar.weaponAttack(target, (WeaponCard) hoveredChar.getDeck().get(cardDisplayRange+1)));
+        if(hoveredChar.getDeck().get(cardDisplayRange+1) instanceof SpellCard)
+            chatLog.append(hoveredChar.spellAttack(targetList, (SpellCard) hoveredChar.getDeck().get(cardDisplayRange+1)));
+        if(hoveredChar.getDeck().get(cardDisplayRange+1) instanceof ItemCard)
+            chatLog.append(hoveredChar.equip((ItemCard) hoveredChar.getDeck().get(cardDisplayRange+1)));
+        if(hoveredChar.getDeck().get(cardDisplayRange+1) instanceof AbilityCard)
+            chatLog.append(hoveredChar.useAbility(targetList, (AbilityCard) hoveredChar.getDeck().get(cardDisplayRange+1)));
+        
+                                             
+    }//GEN-LAST:event_cardButton2ActionPerformed
+
+    private void card2InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_card2InputMethodTextChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_card2InputMethodTextChanged
+
+    private void card2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_card2PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_card2PropertyChange
+
+    private void cardButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardButton3ActionPerformed
+        if(hoveredChar.getDeck().get(cardDisplayRange+2) instanceof WeaponCard && hoveredChar.getDeck().get(cardDisplayRange+2) instanceof SpellCard == false)
+            chatLog.append(hoveredChar.weaponAttack(target, (WeaponCard) hoveredChar.getDeck().get(cardDisplayRange+2)));
+        if(hoveredChar.getDeck().get(cardDisplayRange+2) instanceof SpellCard)
+            chatLog.append(hoveredChar.spellAttack(targetList, (SpellCard) hoveredChar.getDeck().get(cardDisplayRange+2)));
+        if(hoveredChar.getDeck().get(cardDisplayRange+2) instanceof ItemCard)
+            chatLog.append(hoveredChar.equip((ItemCard) hoveredChar.getDeck().get(cardDisplayRange+2)));
+        if(hoveredChar.getDeck().get(cardDisplayRange+2) instanceof AbilityCard)
+            chatLog.append(hoveredChar.useAbility(targetList, (AbilityCard) hoveredChar.getDeck().get(cardDisplayRange+2)));
+        
+                // TODO add your handling code here:
+    }//GEN-LAST:event_cardButton3ActionPerformed
+
+    private void card3InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_card3InputMethodTextChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_card3InputMethodTextChanged
+
+    private void card3PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_card3PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_card3PropertyChange
+
+    private void cardButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardButton5ActionPerformed
+        if(hoveredChar.getDeck().get(cardDisplayRange+3) instanceof WeaponCard && hoveredChar.getDeck().get(cardDisplayRange+3) instanceof SpellCard == false)
+            chatLog.append(hoveredChar.weaponAttack(target, (WeaponCard) hoveredChar.getDeck().get(cardDisplayRange+3)));
+        if(hoveredChar.getDeck().get(cardDisplayRange+3) instanceof SpellCard)
+            chatLog.append(hoveredChar.spellAttack(targetList, (SpellCard) hoveredChar.getDeck().get(cardDisplayRange+3)));
+        if(hoveredChar.getDeck().get(cardDisplayRange+3) instanceof ItemCard)
+            chatLog.append(hoveredChar.equip((ItemCard) hoveredChar.getDeck().get(cardDisplayRange+3)));
+        if(hoveredChar.getDeck().get(cardDisplayRange+3) instanceof AbilityCard)
+            chatLog.append(hoveredChar.useAbility(targetList, (AbilityCard) hoveredChar.getDeck().get(cardDisplayRange+3)));
+        
+        
+    }//GEN-LAST:event_cardButton5ActionPerformed
+
+    private void card5InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_card5InputMethodTextChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_card5InputMethodTextChanged
+
+    private void card5PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_card5PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_card5PropertyChange
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        targetList.add(target);
+        targetListDisplay.append("\n" + target.getName());
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearActionPerformed
+        targetList.clear();
+        targetListDisplay.setText("List of targets: ");
+    }//GEN-LAST:event_clearActionPerformed
+
+    private void typeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeBoxActionPerformed
+        chatLog.append("\n" + userName +": " + typeBox.getText());
+        typeBox.setText("");
+    }//GEN-LAST:event_typeBoxActionPerformed
+    
+    private void updateCards()
+    {
+        //brute forcing for mental health
+         if(hoveredChar.getDeck().isEmpty() == false)
+         {
+            card1.setText("no card");
+            cardButton1.setVisible(false);
+            card2.setText("no card");
+            cardButton2.setVisible(false);
+            card3.setText("no card");
+            cardButton3.setVisible(false);
+            card5.setText("no card");
+            cardButton5.setVisible(false);
+            
+            if(cardDisplayRange < hoveredChar.getDeck().size())
+            {
+                card1.setText(hoveredChar.getDeck().get(cardDisplayRange).toString());
+                cardButton1.setVisible(true);
+            }
+            
+            if(cardDisplayRange + 1 < hoveredChar.getDeck().size())
+            {
+                card2.setText(hoveredChar.getDeck().get(cardDisplayRange + 1).toString());
+                cardButton2.setVisible(true);
+            }
+            
+            if(cardDisplayRange + 2 < hoveredChar.getDeck().size())
+            {
+                card3.setText(hoveredChar.getDeck().get(cardDisplayRange + 2).toString());
+                cardButton3.setVisible(true);
+            }
+            
+            if(cardDisplayRange + 3 < hoveredChar.getDeck().size())
+            {
+                card5.setText(hoveredChar.getDeck().get(cardDisplayRange + 3).toString());
+                cardButton5.setVisible(true);
+            }
+         }
+             
+        else
+        {
+            card1.setText("no card");
+            cardButton1.setVisible(false);
+            card2.setText("no card");
+            cardButton2.setVisible(false);
+            card3.setText("no card");
+            cardButton3.setVisible(false);
+            card5.setText("no card");
+            cardButton5.setVisible(false);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -696,10 +1129,23 @@ public class VTTForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea card1;
+    private javax.swing.JTextArea card2;
+    private javax.swing.JTextArea card3;
+    private javax.swing.JTextArea card5;
+    private javax.swing.JButton cardButton1;
+    private javax.swing.JButton cardButton2;
+    private javax.swing.JButton cardButton3;
+    private javax.swing.JButton cardButton5;
     private javax.swing.JTextArea characterWindow;
     private javax.swing.JTextArea chatLog;
     private java.awt.Choice choice1;
     private java.awt.Choice choice2;
+    private javax.swing.JButton clear;
+    private javax.swing.JInternalFrame fullCard1;
+    private javax.swing.JInternalFrame fullCard2;
+    private javax.swing.JInternalFrame fullCard3;
+    private javax.swing.JInternalFrame fullCard4;
     private javax.swing.JList<String> inti;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton13;
@@ -709,12 +1155,11 @@ public class VTTForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JDesktopPane jDesktopPane3;
     private javax.swing.JDesktopPane jDesktopPane4;
-    private javax.swing.JInternalFrame jInternalFrame8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -729,6 +1174,10 @@ public class VTTForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane15;
+    private javax.swing.JScrollPane jScrollPane16;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -740,7 +1189,8 @@ public class VTTForm extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane3;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTabbedPane sidebar;
+    private javax.swing.JTextArea targetListDisplay;
+    private javax.swing.JTextField typeBox;
     // End of variables declaration//GEN-END:variables
 }

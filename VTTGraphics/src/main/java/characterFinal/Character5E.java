@@ -1072,7 +1072,7 @@ public class Character5E
 	 */
 	public String useAbility(ArrayList<Character5E> targets, AbilityCard abilityCard)
 	{
-		Event ability = new Event(this, targets, " rolls " + abilityCard.getDiceRolls() + " for an ability used on ", 0);
+		Event ability = new Event(this, targets, " rolls " + abilityCard.getDiceRolls() + " for " + abilityCard.getname() + ", used on ", 0);
 		return ability.resolve();
 	}
 	

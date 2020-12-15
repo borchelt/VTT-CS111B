@@ -117,9 +117,9 @@ public class Event
 		for(Character5E target : targets)
 			targetList.add(target.getName());
 		if(damage == 0)
-			return(agressor.getName() + actionDesc + targetList );
+			return("\n" + agressor.getName() + actionDesc + targetList );
 		else 
-			return(agressor.getName() + actionDesc + targetList + ", dealing " + damage + " damage!");
+			return("\n" + agressor.getName() + actionDesc + targetList + ", dealing " + damage + " damage!");
 	}
 	
 	

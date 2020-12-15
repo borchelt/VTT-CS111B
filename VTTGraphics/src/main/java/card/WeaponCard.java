@@ -64,7 +64,7 @@ public class WeaponCard extends Card{
 	 */
 	public int getDamage() 
 	{
-		return addRoll();
+            return addRoll();
 	}
 	
 	
